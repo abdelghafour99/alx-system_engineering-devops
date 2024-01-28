@@ -7,7 +7,7 @@ h=0
 m=0
 while [ $h -le 12 ] && [ $m -le 59 ]; do
 	if [ $((m)) == 0 ]; then
-		echo "Hour: " $h
+		echo "Hour:" $h
 	elif [ $((m)) == 59 ]; then
 		echo $m
 		m=-1 
