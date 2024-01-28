@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+#This script displays numbers from 1 to 20 and
+#displays -bad luck from China- for the 4th loop iteration
+#displays -bad luck from Japan- for the 8th loop iteration
+#displays 17 and then bad luck from Italy for the 17th loop iteration
+h=0
+m=0
+while [ $h -le 12 ] && [ $m -le 59 ]; do
+	if [ $((m)) == 0 ]; then
+		echo "Hour: " $h
+	elif [ $((m)) == 59 ]; then
+		echo $m
+		m=-1 
+		((h++))
+	else 
+		echo $m
+	fi
+	((m++))
+done
