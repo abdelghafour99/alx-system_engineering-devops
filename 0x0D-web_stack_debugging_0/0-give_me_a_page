@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# The command I used to fix the issue 
+# in the script to initialize server apache
+/etc/init.d/apache2 start
