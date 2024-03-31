@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 # configure web-02 to be identical to web-01
 
+# Check if running with root privileges
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root" 
+   exit 1
+fi
+
 # Install nginx on web-01 server
 apt-get -y update
 apt-get -y install nginx
@@ -13,7 +19,7 @@ if [[ -z $FIND ]]; then
     sed -i "23i $HEADER" /etc/nginx/sites-available/default
 fi
 
-# Create the firt index.html page
+# Create the first index.html page
 echo "Hello World!" > /var/www/html/index.html
 
 # Add a redirection (to another page) to the nginx configuration file
@@ -31,4 +37,5 @@ if [[ -z $FIND ]]; then
     sed -i "40i $ERROR" /etc/nginx/sites-available/default
 fi
 
+# Restart nginx
 service nginx restart

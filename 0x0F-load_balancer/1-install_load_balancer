@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
-# Install and configure HAproxy on your lb-01 server
+# Install and configure HAproxy on the lb-01 server
 
-# Install HAproxy on a server
+# Check if running with root privileges
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root" 
+   exit 1
+fi
+
+# Install HAproxy on the server
 apt-get -y update
-apt-get -y install haproxy=1.6.\*
+apt-get -y install haproxy
 
 # Configure HAproxy configuration file to distribute requests
 echo '
@@ -17,5 +23,5 @@ backend web_servers
         server 64820-web-02 52.86.102.6:80
 ' >> /etc/haproxy/haproxy.cfg
 
-# Restart HAproxy service
+# Restart HAproxy services
 service haproxy restart
