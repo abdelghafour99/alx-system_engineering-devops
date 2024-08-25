@@ -17,16 +17,16 @@ def recurse(subreddit, hot_list=[], after="", count=0):
     """
 
     url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
-    params = {"after": after}
-    headers = {"User-Agent": "My-User-Agent"}
+    para = {"after": after}
+    head = {"User-Agent": "My-User-Agent"}
 
-    response = requests.get(url, params=params,
-                            headers=headers, allow_redirects=False)
+    resp = requests.get(url, para=para,
+                            head=head, allow_redirects=False)
 
-    if response.status_code != 200:
+    if resp.status_code != 200:
         return None
 
-    data = response.json().get("data", {})
+    data = resp.json().get("data", {})
     children = data.get("children", [])
     after = data.get("after", None)
 

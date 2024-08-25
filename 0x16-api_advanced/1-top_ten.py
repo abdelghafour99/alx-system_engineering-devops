@@ -10,12 +10,23 @@ import requests
 def top_ten(subreddit):
     """ Print the titles of the 10 hottest posts on a given subreddit """
 
-    sub_info = requests.get("https://www.reddit.com/r/{}/hot.json?limit=10"
-                            .format(subreddit),
-                            headers={"User-Agent": "My-User-Agent"},
-                            allow_redirects=False)
-    if sub_info.status_code >= 300:
+    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
+    para = {"limit": 10}
+    head = {"User-Agent": "My-Unique-User-Agent"}
+
+    resp = requests.get(url, para=para,
+                        head=head, allow_redirects=False)
+
+    if resp.status_code != 200:
         print('None')
-    else:
-        [print(child.get("data").get("title"))
-         for child in sub_info.json().get("data").get("children")]
+        return
+
+    data = resp.json().get("data", {})
+    children = data.get("children", [])
+
+    if not children:
+        print('None')
+        return
+
+    for child in children:
+        print(child.get("data", {}).get("title", ''))
