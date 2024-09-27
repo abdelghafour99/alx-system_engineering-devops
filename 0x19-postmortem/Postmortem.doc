@@ -1,0 +1,27 @@
+Postmortem: Web Stack Outage
+
+Issue Summary
+On September 03, 2024, from 14:00 to 16:30 UTC, our web application experienced a significant outage that affected approximately 70% of our users. 
+The Users reported slow load times and intermittent access errors when attempting to log in. The root cause was determined to be a memory leak in the application server due to an unoptimized query processing routine.
+________________________________________
+Timeline
+•	11:00 UTC: Outage detected via monitoring alert indicating increased response times.
+•	11:05 UTC: Engineers noted a spike in error rates after analyzing logs.
+•	11:10 UTC: Initial investigation focused on the database; assumptions were made about a potential indexing issue.
+•	11:30 UTC: Misleading investigation paths included examining CDN issues and network latency, which were ruled out after checks.
+•	12:00 UTC: Escalated to the engineering team specializing in application performance.
+•	13:15 UTC: Identified the memory leak in the application server’s query processing logic.
+•	13:30 UTC: Resolved by restarting the application servers and deploying a patch to optimize the query handling.
+________________________________________
+Root Cause and Resolution
+The outage was caused by a memory leak in the application server due to inefficient query processing (memory was not properly freed after execution). This led to increased memory consumption and ultimately caused the server to become unresponsive under load. The issue was resolved by optimizing the query execution routines, ensuring proper memory management, and then patching the application to clear the lost memory before restarting the server.
+________________________________________
+Corrective and Preventative Measures
+To prevent future occurrences, we need to improve our code review processes for database interactions and enhance our monitoring systems. Specific tasks include:
+•	Refactor the application’s query handling logic to eliminate memory leaks.
+•	Implement automated tests focusing on memory usage during peak loads.
+•	Enhance monitoring tools to include real-time memory usage alerts.
+•	Schedule regular performance reviews of the application server.
+•	Document and share best practices for database query optimization across teams.
+This incident highlights the need to continuously monitor application performance and take proactive measures to prevent similar issues.
+
