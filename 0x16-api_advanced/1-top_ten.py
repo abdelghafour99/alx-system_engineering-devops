@@ -11,11 +11,11 @@ def top_ten(subreddit):
     """ Print the titles of the 10 hottest posts on a given subreddit """
 
     url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
-    para = {"limit": 10}
-    head = {"User-Agent": "My-Unique-User-Agent"}
+    params = {"limit": 10}
+    headers = {"User-Agent": "My-Unique-User-Agent"}
 
-    resp = requests.get(url, para=para,
-                        head=head, allow_redirects=False)
+    resp = requests.get(url, headers=headers, params=params,
+                            allow_redirects=False)
 
     if resp.status_code != 200:
         print('None')
